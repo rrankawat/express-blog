@@ -14,6 +14,9 @@ const posts = require('./routes/posts');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Body parser
+app.use(express.json());
+
 // Mount routes
 app.get('/', (req, res) => {
   res.send('Welcome to blog api');
@@ -22,8 +25,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/posts', posts);
 
 app.listen(
-  PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  PORT
+  // console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 );
 
 // Handle unhandled promise rejections
