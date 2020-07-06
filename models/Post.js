@@ -13,7 +13,11 @@ const Post = mongoose.Schema({
     type: String,
     default: 'no-image.jpg',
   },
-  slug: String,
+  slug: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
