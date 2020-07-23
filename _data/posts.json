@@ -1,0 +1,32 @@
+[
+  {
+    "image": "no-image.jpg",
+    "_id": "5f01e95ef0430643a5e94777",
+    "title": "Post One",
+    "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quo eius cupiditate dolorum neque quidem veniam eaque aperiam fuga enim, perspiciatis cumque veritatis saepe animi? Quae, aliquid pariatur. Laborum, eos.",
+    "slug": "post-one",
+    "createdAt": "2020-07-05T14:53:18.996Z",
+    "updatedAt": "2020-07-05T14:53:18.996Z",
+    "__v": 0
+  },
+  {
+    "image": "no-image.jpg",
+    "_id": "5f01e966f0430643a5e94778",
+    "title": "Post Two",
+    "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quo eius cupiditate dolorum neque quidem veniam eaque aperiam fuga enim, perspiciatis cumque veritatis saepe animi? Quae, aliquid pariatur. Laborum, eos.",
+    "slug": "post-two",
+    "createdAt": "2020-07-05T14:53:26.654Z",
+    "updatedAt": "2020-07-05T14:53:26.654Z",
+    "__v": 0
+  },
+  {
+    "image": "no-image.jpg",
+    "_id": "5f01e98e0340ec43cc076d59",
+    "title": "Post Three",
+    "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quo eius cupiditate dolorum neque quidem veniam eaque aperiam fuga enim, perspiciatis cumque veritatis saepe animi? Quae, aliquid pariatur. Laborum, eos.",
+    "slug": "post-three",
+    "createdAt": "2020-07-05T14:54:06.753Z",
+    "updatedAt": "2020-07-05T14:54:06.753Z",
+    "__v": 0
+  }
+]
