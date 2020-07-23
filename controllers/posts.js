@@ -6,7 +6,17 @@ const Post = require('../models/Post');
 // @accsss   Public
 exports.getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    let query;
+
+    let queryStr = JSON.stringify(req.query);
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    );
+
+    query = Post.find(JSON.parse(queryStr));
+
+    const posts = await query;
 
     res.status(200).json({ success: true, count: posts.length, data: posts });
   } catch (error) {
