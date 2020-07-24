@@ -7,6 +7,7 @@ dotenv.config({ path: './config/config.env' });
 
 // Load models
 const Post = require('./models/Post');
+const Comment = require('./models/Comment');
 
 // Connect to db
 mongoose.connect(process.env.MONGO_URI, {
@@ -20,11 +21,15 @@ mongoose.connect(process.env.MONGO_URI, {
 const posts = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/posts.json`, 'utf-8')
 );
+const comments = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/comments.json`, 'utf-8')
+);
 
 // Import into db
 const importData = async () => {
   try {
     await Post.create(posts);
+    await Comment.create(comments);
 
     console.log('Data Imported');
     process.exit();
@@ -37,6 +42,7 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Post.deleteMany();
+    await Comment.deleteMany();
 
     console.log('Data destroyed');
     process.exit();
