@@ -7,6 +7,7 @@ const {
   createPost,
   updatePostById,
   deletePostById,
+  postPhotoUpload,
 } = require('../controllers/posts');
 
 // Include other resource routers
@@ -21,5 +22,6 @@ router
   .get(getPostById)
   .put(postValidator, updatePostById)
   .delete(deletePostById);
+router.route('/:id/photo').put(postPhotoUpload);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const slugify = require('slugify');
 const Post = require('../models/Post');
+const path = require('path');
 
 // @desc     Get all posts
 // @route    GET /api/v1/posts
@@ -186,6 +187,60 @@ exports.deletePostById = async (req, res) => {
     post.remove();
 
     res.json({ success: true, msg: 'Post deleted' });
+  } catch (error) {
+    res.status(400).json({ success: false, msg: 'Server Error' });
+  }
+};
+
+// @desc     Upload photo for post
+// @route    PUT /api/v1/posts/:id/photo
+// @accsss   Private
+exports.postPhotoUpload = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ success: false, msg: 'Post not found' });
+    }
+
+    if (!req.files) {
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Please upload a photo' });
+    }
+
+    const file = req.files.file;
+
+    // Make sure the image is a photo
+    if (!file.mimetype.startsWith('image')) {
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Please upload an image file' });
+    }
+
+    // Check filesize
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+      return res.status(400).json({
+        success: false,
+        msg: `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+      });
+    }
+
+    // Create custom filename
+    file.name = `photo_${post._id}${path.parse(file.name).ext}`;
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+      if (err) {
+        return res.status(400).json({
+          success: false,
+          msg: `Something went wrong`,
+        });
+      }
+
+      await Post.findByIdAndUpdate(req.params.id, { photo: file.name });
+
+      res.status(200).json({ success: true, data: file.name });
+    });
   } catch (error) {
     res.status(400).json({ success: false, msg: 'Server Error' });
   }

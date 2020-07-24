@@ -1,9 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const fileupload = require('express-fileupload');
+const path = require('path');
 
-// Load env vars
+// Load env vars & db
 dotenv.config({ path: './config/config.env' });
+const connectDB = require('./config/db');
 
 // Connect to db
 connectDB();
@@ -17,6 +19,12 @@ const PORT = process.env.PORT || 5000;
 
 // Body parser
 app.use(express.json());
+
+// File upload
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routes
 app.get('/', (req, res) => {
