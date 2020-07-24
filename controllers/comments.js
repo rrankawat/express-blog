@@ -7,24 +7,17 @@ const Comment = require('../models/Comment');
 // @accsss   Public
 exports.getComments = async (req, res, next) => {
   try {
-    let query;
-
     if (req.params.postId) {
-      query = Comment.find({ post: req.params.postId });
-    } else {
-      query = Comment.find().populate({
-        path: 'post',
-        select: 'title body',
+      const comments = await Comment.find({ post: req.params.postId });
+
+      return res.status(200).json({
+        success: true,
+        count: comments.length,
+        data: comments,
       });
+    } else {
+      res.status(200).json(res.advancedFilters);
     }
-
-    const comments = await query;
-
-    res.status(200).json({
-      success: true,
-      count: comments.length,
-      data: comments,
-    });
   } catch (err) {
     res.status(400).json({ success: false, msg: 'Server Error' });
   }

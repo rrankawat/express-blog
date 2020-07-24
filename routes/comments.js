@@ -7,8 +7,19 @@ const {
   updateComment,
   deleteComment,
 } = require('../controllers/comments');
+const Comment = require('../models/Comment');
+const advancedFilters = require('../middleware/advancedFilters');
 
-router.route('/').get(getComments).post(addComment);
+router
+  .route('/')
+  .get(
+    advancedFilters(Comment, {
+      path: 'post',
+      select: 'title body',
+    }),
+    getComments
+  )
+  .post(addComment);
 router.route('/:id').get(getComment).put(updateComment).delete(deleteComment);
 
 module.exports = router;

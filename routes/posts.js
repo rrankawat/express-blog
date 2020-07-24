@@ -9,6 +9,8 @@ const {
   deletePostById,
   postPhotoUpload,
 } = require('../controllers/posts');
+const Post = require('../models/Post');
+const advancedFilters = require('../middleware/advancedFilters');
 
 // Include other resource routers
 const commentRouter = require('./comments');
@@ -16,7 +18,10 @@ const commentRouter = require('./comments');
 // Re-route into other resource router
 router.use('/:postId/comments', commentRouter);
 
-router.route('/').get(getPosts).post(postValidator, createPost);
+router
+  .route('/')
+  .get(advancedFilters(Post, 'comments'), getPosts)
+  .post(postValidator, createPost);
 router
   .route('/:id')
   .get(getPostById)
