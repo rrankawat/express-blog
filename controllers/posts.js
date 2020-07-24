@@ -55,10 +55,6 @@ exports.getPosts = async (req, res) => {
     // Executing query
     const posts = await query;
 
-    if (!post) {
-      return res.status(404).json({ success: false, msg: 'Post not found' });
-    }
-
     // Pagination result
     const pagination = {};
 
