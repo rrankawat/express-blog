@@ -44,7 +44,7 @@ Post.pre('remove', async function (next) {
 Post.virtual('comments', {
   ref: 'Comment',
   localField: '_id',
-  foreignField: 'postId',
+  foreignField: 'post',
   justOne: false,
 });
 

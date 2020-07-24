@@ -10,10 +10,10 @@ exports.getComments = async (req, res, next) => {
     let query;
 
     if (req.params.postId) {
-      query = Comment.find({ postId: req.params.postId });
+      query = Comment.find({ post: req.params.postId });
     } else {
       query = Comment.find().populate({
-        path: 'postId',
+        path: 'post',
         select: 'title body',
       });
     }
@@ -30,12 +30,35 @@ exports.getComments = async (req, res, next) => {
   }
 };
 
+// @desc     Get single comment by Id
+// @route    GET /api/v1/comments/:id
+// @accsss   Public
+exports.getComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.id).populate({
+      path: 'post',
+      select: 'title body',
+    });
+
+    if (!comment) {
+      return res.status(404).json({ success: false, msg: 'Comment not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: comment,
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, msg: 'Server Error' });
+  }
+};
+
 // @desc     Add comment
 // @route    POST /api/v1/posts/:postId/comments
 // @accsss   Private
 exports.addComment = async (req, res, next) => {
   try {
-    req.body.postId = req.params.postId;
+    req.body.post = req.params.postId;
 
     const post = await Post.findById(req.params.postId);
 
