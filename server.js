@@ -10,6 +10,7 @@ connectDB();
 
 // Route files
 const posts = require('./routes/posts');
+const comments = require('./routes/comments');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/posts', posts);
+app.use('/api/v1/comments', comments);
 
 app.listen(
   PORT

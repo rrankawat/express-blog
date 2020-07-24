@@ -9,6 +9,12 @@ const {
   deletePostById,
 } = require('../controllers/posts');
 
+// Include other resource routers
+const commentRouter = require('./comments');
+
+// Re-route into other resource router
+router.use('/:postId/comments', commentRouter);
+
 router.route('/').get(getPosts).post(postValidator, createPost);
 router
   .route('/:id')
