@@ -12,7 +12,10 @@ exports.getComments = async (req, res, next) => {
     if (req.params.postId) {
       query = Comment.find({ postId: req.params.postId });
     } else {
-      query = Comment.find();
+      query = Comment.find().populate({
+        path: 'postId',
+        select: 'title body',
+      });
     }
 
     const comments = await query;

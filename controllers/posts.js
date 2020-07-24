@@ -27,7 +27,10 @@ exports.getPosts = async (req, res) => {
     );
 
     // Finding resource
-    query = Post.find(JSON.parse(queryStr));
+    query = Post.find(JSON.parse(queryStr)).populate({
+      path: 'comments',
+      select: 'body',
+    });
 
     // Select fields
     if (req.query.select) {
@@ -179,7 +182,9 @@ exports.deletePostById = async (req, res) => {
       return res.status(404).json({ success: false, msg: 'Post not found' });
     }
 
-    await Post.findByIdAndRemove(req.params.id);
+    // await Post.findByIdAndRemove(req.params.id);
+    post.remove();
+
     res.json({ success: true, msg: 'Post deleted' });
   } catch (error) {
     res.status(400).json({ success: false, msg: 'Server Error' });
