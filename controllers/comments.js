@@ -76,3 +76,49 @@ exports.addComment = async (req, res, next) => {
     res.status(400).json({ success: false, msg: 'Server Error' });
   }
 };
+
+// @desc     Update comment
+// @route    PUT /api/v1/comments/:id
+// @accsss   Private
+exports.updateComment = async (req, res, next) => {
+  try {
+    let course = await Comment.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ success: false, msg: 'Comment not found' });
+    }
+
+    course = await Comment.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, msg: 'Server Error' });
+  }
+};
+
+// @desc     Delete comment
+// @route    DELETE /api/v1/comments/:id
+// @accsss   Private
+exports.deleteComment = async (req, res, next) => {
+  try {
+    const course = await Comment.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ success: false, msg: 'Comment not found' });
+    }
+
+    await course.remove();
+
+    res.status(200).json({
+      success: true,
+      msg: 'Comment has been deleted',
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, msg: 'Server Error' });
+  }
+};
